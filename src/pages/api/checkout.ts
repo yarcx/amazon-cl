@@ -26,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
       line_items: modifiedItems,
       mode: "payment",
-      success_url: `${process.env.NEXTAUTH_URL}/success`,
+      success_url: `https://amazon-cl-nine.vercel.app/success`,
       cancel_url: `${process.env.NEXTAUTH_URL}/checkout`,
       metadata: {
         email,

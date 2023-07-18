@@ -39,7 +39,6 @@ const CartPayment = () => {
     });
 
     const checkoutSession = await response.json();
-    console.log(checkoutSession, "the result");
 
     try {
       // Redirect user to stripe checkout session
