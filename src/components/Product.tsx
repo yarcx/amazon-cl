@@ -23,7 +23,7 @@ const Product = ({ productData }: Props) => {
 
   return (
     <div className='grid grid-cols-1 gap-6 px-6 w-ful md:grid-cols-2 xl:grid-cols-4'>
-      {productData.map((product: ProductProps) => {
+      {productData?.map((product: ProductProps) => {
         const { brand, category, description, image, isName, oldPrice, price, title, isNew, _id } =
           product;
         return (

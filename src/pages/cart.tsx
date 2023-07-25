@@ -10,7 +10,7 @@ const Cart = () => {
   const { productData } = useSelector((state: StateProps) => state.next);
 
   return (
-    <div className='grid grid-cols-5 gap-10 px-6 py-4 mx-auto max-w-screen-2xl'>
+    <div className='grid grid-cols-5 gap-10 px-6 py-4 mx-auto mb-20 max-w-screen-2xl'>
       {productData.length > 0 ? (
         <>
           <div className='col-span-4 p-4 bg-white rounded-lg'>

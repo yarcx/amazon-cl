@@ -2,6 +2,9 @@ import Banner from "@/components/Banner";
 import Product from "@/components/Product";
 import { Inter } from "next/font/google";
 import { ProductProps } from "../../types";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setAllProduct } from "@/store/nextSlice";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,6 +13,10 @@ interface Props {
 }
 
 export default function Home({ productData }: Props) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setAllProduct(productData));
+  }, [productData]);
   return (
     <main>
       <div className='max-w-screen-2xl mx-aut'>

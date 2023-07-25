@@ -1,17 +1,30 @@
 import Image from "next/image";
-import { StoreProduct } from "../../types";
+import { ProductProps, StoreProduct } from "../../types";
 import FormattedPrice from "./FormattedPrice";
 import { LuMinus, LuPlus } from "react-icons/lu";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch } from "react-redux";
-import { decreaseQuantity, deleteProduct, increaseQuantity } from "@/store/nextSlice";
+import {
+  addToCart,
+  decreaseQuantity,
+  deleteFavoriteData,
+  deleteProduct,
+  increaseQuantity,
+} from "@/store/nextSlice";
+import { useRouter } from "next/router";
 
 interface CardProductProps {
   item: StoreProduct;
 }
 
 const CardProduct = ({ item }: CardProductProps) => {
+  const { pathname } = useRouter();
+  const isFavoritePage = pathname === "/favorite";
   const dispatch = useDispatch();
+
+  const add = (product: ProductProps) => {
+    dispatch(addToCart({ ...product, quantity: 1 }));
+  };
 
   const increaseQty = (item: StoreProduct) => {
     dispatch(increaseQuantity(item));
@@ -38,29 +51,42 @@ const CardProduct = ({ item }: CardProductProps) => {
               <FormattedPrice amount={item.price} />
             </span>
           </p>
-          <div className='flex items-center gap-6 '>
-            <div className='flex items-center justify-between px-4 py-1 rounded-full shadow-lg border-[1px] border-gray-300 w-28 shadow-gray-300'>
-              <span
-                onClick={() => decreaseQty(item)}
-                className='flex items-center justify-center w-6 h-6 text-base bg-transparent border rounded-full cursor-pointer hover:bg-gray-300 decoration-purple-300'
+          {!isFavoritePage && (
+            <div className='flex items-center gap-6 '>
+              <div className='flex items-center justify-between px-4 py-1 rounded-full shadow-lg border-[1px] border-gray-300 w-28 shadow-gray-300'>
+                <span
+                  onClick={() => decreaseQty(item)}
+                  className='flex items-center justify-center w-6 h-6 text-base bg-transparent border rounded-full cursor-pointer hover:bg-gray-300 decoration-purple-300'
+                >
+                  <LuMinus />
+                </span>
+                <span>{item?.quantity}</span>
+                <span
+                  onClick={() => increaseQty(item)}
+                  className='flex items-center justify-center w-6 h-6 text-base bg-transparent border rounded-full cursor-pointer hover:bg-gray-300 decoration-purple-300'
+                >
+                  <LuPlus />
+                </span>
+              </div>
+              <div
+                onClick={() => removeItem(item)}
+                className='flex items-center text-sm font-medium text-gray-400 duration-300 cursor-pointer hover:text-red-600'
               >
-                <LuMinus />
-              </span>
-              <span>{item?.quantity}</span>
-              <span
-                onClick={() => increaseQty(item)}
-                className='flex items-center justify-center w-6 h-6 text-base bg-transparent border rounded-full cursor-pointer hover:bg-gray-300 decoration-purple-300'
-              >
-                <LuPlus />
-              </span>
+                <IoMdClose /> <p className='mt-[2px]'>remove</p>
+              </div>
             </div>
-            <div
-              onClick={() => removeItem(item)}
-              className='flex items-center text-sm font-medium text-gray-400 duration-300 cursor-pointer hover:text-red-600'
+          )}
+          {isFavoritePage && (
+            <button
+              onClick={() => {
+                add(item);
+                dispatch(deleteFavoriteData(item));
+              }}
+              className='h-10 text-sm font-semibold text-white rounded-lg w-36 bg-amazon_blue hover:text-black hover:bg-amazon_yellow'
             >
-              <IoMdClose /> <p className='mt-[2px]'>remove</p>
-            </div>
-          </div>
+              add to cart
+            </button>
+          )}
         </div>
 
         <div className='text-lg font-semibold text-amazon_blue'>

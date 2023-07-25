@@ -14,7 +14,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <SessionProvider session={session}>
-          <main className='bg-gray-300 font-bodyfont'>
+          <main className='h-auto bg-gray-300 font-bodyfont'>
             <RootLayout>
               <Component {...pageProps} />
             </RootLayout>
